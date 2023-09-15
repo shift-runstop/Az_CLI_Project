@@ -18,7 +18,7 @@ def send_ai_message(api_key, message):
     response = requests.post(base_url, headers=headers, json=payload)
 
     if response.status_code == 200:
-        ai_response = response.json()['ai_message']
+        ai_response = response.json()['']
         print(ai_response)
         return ai_response
     else:
@@ -35,4 +35,4 @@ def main():
         print("Error sending message to AI")
 
 if __name__ == "__main__":
-    main()
+    main
