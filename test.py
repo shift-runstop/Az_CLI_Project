@@ -8,14 +8,13 @@ base_url = os.getenv('BASE_URL', 'https://api.personal.ai/v1/message')
 memory_api_url = os.getenv('MEMORY_API_URL', 'https://api.personal.ai/v1/memory')
 
 def send_ai_message(api_key, message):
-    base_url = 'https://api.personal.ai/v1/message'
     headers = {
         'Content-Type': 'application/json',
         'x-api-key': api_key
     }
 
     payload = {"Text": message}
-
+    print(payload)
     response = requests.request("POST", base_url, headers=headers, json=payload)
     print("Gimme a 200" ,response)
     if response.status_code == 200:
@@ -26,7 +25,6 @@ def send_ai_message(api_key, message):
         return None
 
 def main():
-    api_key =  '{{user-api-key}}'
     message = "Hello"
     ai_response = send_ai_message(api_key, message)
 
