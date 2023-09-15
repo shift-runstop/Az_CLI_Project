@@ -25,7 +25,7 @@ def send_ai_message(api_key, message):
         return None
 
 def main():
-    message = "Hello"
+    message = sys.argv[1:]
     ai_response = send_ai_message(api_key, message)
 
     print("main", ai_response)
