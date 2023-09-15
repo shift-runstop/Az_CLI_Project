@@ -17,17 +17,17 @@ def send_ai_message(api_key, message):
     payload = {"Text": message}
 
     response = requests.request("POST", base_url, headers=headers, json=payload)
-    print("HElloooooo" ,response)
+    print("Gimme a 200" ,response)
     if response.status_code == 200:
         ai_response = response.json()
-        print("testing, why do you not run", ai_response)
+        print("ok you run now", ai_response)
         return ai_response
     else:
         return None
 
 def main():
     api_key =  '{{user-api-key}}'
-    message = sys.argv
+    message = "Hello"
     ai_response = send_ai_message(api_key, message)
 
     print("main", ai_response)
