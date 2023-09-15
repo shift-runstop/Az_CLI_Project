@@ -16,7 +16,7 @@ def send_ai_message(api_key, message):
 
     payload = {"Text": message}
 
-    response = requests.post(base_url, headers=headers, json=payload)
+    response = requests.request("POST", base_url, headers=headers, json=payload)
     print("HElloooooo" ,response)
     if response.status_code == 200:
         ai_response = response.json()
