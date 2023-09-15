@@ -19,7 +19,7 @@ def send_ai_message(api_key, message):
 
     if response.status_code == 200:
         ai_response = response.json()['']
-        print(ai_response)
+        print("testing, why do you not run", ai_response)
         return ai_response
     else:
         return None
