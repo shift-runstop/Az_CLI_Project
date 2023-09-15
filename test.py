@@ -10,6 +10,9 @@ load_dotenv()
 api_key = os.getenv('API_KEY')
 url = 'https://api.personal.ai/v1/message'
 
+def concat(*args, sep=" "):
+    return sep.join(args)
+
 def send_ai_message(api_key, message):
     headers = {
         'Content-Type': 'application/json',
@@ -17,7 +20,7 @@ def send_ai_message(api_key, message):
     }
 
     payload = json.dumps({
-        "Text": message
+        "Text": concat(*message)
     })
 
     print(payload)
@@ -25,7 +28,7 @@ def send_ai_message(api_key, message):
     print(response.text)
 
 def main():
-    message = sys.argv[1]
+    message = sys.argv[1:]
     send_ai_message(api_key, message)
 
 if __name__ == "__main__":
