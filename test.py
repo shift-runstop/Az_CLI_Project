@@ -23,9 +23,11 @@ def send_ai_message(api_key, message):
         "Text": concat(*message)
     })
 
-    print(payload)
     response = requests.request("POST", url, headers=headers, data=payload)
-    print(response.text)
+    response_data = response.json()
+    print("")
+    print(response_data['ai_message'])
+
 
 def main():
     message = sys.argv[1:]
