@@ -1,7 +1,6 @@
 import requests
 import json
 import os
-import pytz
 import sys
 
 api_key = os.getenv('API_KEY')
@@ -20,6 +19,7 @@ def send_ai_message(api_key, message):
 
     if response.status_code == 200:
         ai_response = response.json()['ai_message']
+        print(ai_response)
         return ai_response
     else:
         return None
