@@ -25,6 +25,8 @@ send message to AI
 python3 pai.py [Your Message Here.]
 ``
 
+Note, you need to use the -s argument to stack messages, they do not stack by default.
+
 get help (list arguments)
 
 ``
