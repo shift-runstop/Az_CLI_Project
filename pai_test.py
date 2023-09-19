@@ -24,6 +24,9 @@ api_key = os.getenv('API_KEY')
 message_url = 'https://api.personal.ai/v1/message'
 memory_url = 'https://api.personal.ai/v1/memory'
 
+#temp. will be moved to .env
+Domain_URL = "seancruz20212622-ruxen" or None
+
 def concat(args, sep=" "): 
     #return concatinaton of arguments if there is 1 or more (error prevention)
     if len(args) >= 1: 
@@ -35,7 +38,8 @@ def send_message(message):
         'x-api-key': api_key
     }
     payload = json.dumps({ #json.dumps to ensure json format is sent as *requried*
-        "Text": message #message (string data) to send AI.
+        "Text": message, #message (string data) to send AI.
+        #"DomainName": Domain_URL if Domain_URL else None, #Domain name for sub-profile support
     })
 
     #send message to AI.
@@ -56,14 +60,11 @@ def stack_memory(text):
     payload = json.dumps({ #json.dumps to ensure json format is sent as *requried*
         "Text": text, #text data to stack to AI's memory.
         "SourceName": "CLI", #source name *required* by api.
+        #"DomainName": Domain_URL if Domain_URL else None, #Domain name for sub-profile support
     })
 
     #send memory data to server
     response = requests.request("POST", memory_url, headers=headers, data=payload, timeout=60)
-    
-    #print response (debug purpouses)
-    print(response)
-    
 
         
 def main(): #this is where we will bring it together
@@ -75,13 +76,13 @@ def main(): #this is where we will bring it together
         
         #send message to ai. store and print response.
         response = str(send_message(message))
-        print("\n " + str(response))
+        print("\n " + str(response) + "\n")
 
         #stack message sent to ai and ai response.
         stack_memory(
             "recieved message: " + message +
             "\n AI response:" + response)
-            #!!!!currently returns error 500, internal server error.!!!!
+
 
 #if there is an api key, run main (script bugs out end errors without it
 # due to lack of key in line 36)
