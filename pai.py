@@ -112,7 +112,7 @@ def main(): #this is where we will bring it together
         if args.stack:
             if config['DomainName_stackMessage'] != config['DomainName_stackResponse']:
                 stack_memory("recieved message: " + str(message), config['DomainName_stackMessage'])
-                stack_memory("AI response: " + str(message), config['DomainName_stackResponse'])
+                stack_memory("AI response: " + str(response), config['DomainName_stackResponse'])
                 print("stacked message to: " + config['DomainName_stackMessage'] + "\nstacked response to: " + config['DomainName_stackResponse'])
             else:   
                 stack_memory(
