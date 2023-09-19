@@ -5,25 +5,47 @@
 
 import json
 import os
-import sys
+import argparse
 
 #pip install requests
 import requests 
 
-#pip install python-dotenv
-from dotenv import load_dotenv 
+#load config.json
+config = {
+'api_key' : '',
+}
+try:
+    f = open("config.json", "r")
+    config = json.loads(f.read())
+    f.close()
+except:
+    f = open("config.json", "w")
+    f.write(json.dumps(config))
+    f.close()
+    
 
-
-#MAIN SCRIPT================================================#
-
-#get api key from .env
-load_dotenv()
-api_key = os.getenv('API_KEY') 
-
-# define urls for message and memory
+# define constants
+api_key = config['api_key']
 message_url = 'https://api.personal.ai/v1/message'
 memory_url = 'https://api.personal.ai/v1/memory'
 
+
+#setup argpass
+parser = argparse.ArgumentParser(
+            prog='PAI Command Line Interface',
+            description='A tool for interaction with PAI AI from the command line',
+            epilog='**Work In Progress**')
+
+#define arguments
+#===optional true or false argument
+parser.add_argument('-s', '--stack', action='store_true', help='stack message and ai response')
+#===required positional argument : 'message'    
+parser.add_argument('message', nargs='*', help='type message to AI after arguments') #nargs='*' ensures we get same usable output as sys.argv[1:]
+
+#set parsed arguments as variable.
+args = parser.parse_args()
+
+#MAIN SCRIPT================================================#
 def concat(args, sep=" "): 
     #return concatinaton of arguments if there is 1 or more (error prevention)
     if len(args) >= 1: 
@@ -63,9 +85,7 @@ def stack_memory(text):
 
         
 def main(): #this is where we will bring it together
-
-    cli_input = sys.argv[1:] #get arguments for message
-    message = concat(cli_input) #concat into message string or none
+    message = concat(args.message) #concat into message string or none
 
     if message: #if there is a message to send to the ai
         
@@ -73,15 +93,17 @@ def main(): #this is where we will bring it together
         response = str(send_message(message))
         print("\n " + str(response) + "\n")
 
-        #stack message sent to ai and ai response.
-        stack_memory(
-            "recieved message: " + message +
-            "\n AI response:" + response)
-
+        #stack message sent to ai and ai response if stack is set to true (see arguments)
+        if args.stack:
+            stack_memory(
+                "recieved message: " + message +
+                "\n AI response:" + response)
+        else:
+            print("message not stacked.\n")
 
 #if there is an api key, run main (script bugs out end errors without it
 # due to lack of key in line 36)
-if len(api_key) > 0:
+if api_key:
     main()
 else:
     #if there isnt a key, inform user key is missing.
