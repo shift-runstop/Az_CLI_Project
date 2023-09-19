@@ -21,17 +21,17 @@ python3 pai.py -key [YOUR API KEY HERE]
 # Usage
 send message to AI
 
-``
+```
 python3 pai.py [Your Message Here.]
-``
+```
 
 * Note, you need to use the ``-s`` argument to stack messages, they do not stack by default.
 
-get help (list arguments)
+get a full list of availble arguments
 
-``
+```
 python3 pai.py -h
-``
+```
 
 # Configuration
 The script saves its configuration to config.json by default.
