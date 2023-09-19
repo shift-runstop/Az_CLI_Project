@@ -22,13 +22,11 @@ except:
     f = open("config.json", "w")
     f.write(json.dumps(config))
     f.close()
-    
 
-# define constants
-api_key = config['api_key']
-message_url = 'https://api.personal.ai/v1/message'
-memory_url = 'https://api.personal.ai/v1/memory'
-
+def save_config():
+    f = open("config.json", "w")
+    f.write(json.dumps(config))
+    f.close()    
 
 #setup argpass
 parser = argparse.ArgumentParser(
@@ -37,13 +35,22 @@ parser = argparse.ArgumentParser(
             epilog='**Work In Progress**')
 
 #define arguments
-#===optional true or false argument
-parser.add_argument('-s', '--stack', action='store_true', help='stack message and ai response')
-#===required positional argument : 'message'    
-parser.add_argument('message', nargs='*', help='type message to AI after arguments') #nargs='*' ensures we get same usable output as sys.argv[1:]
+
+parser.add_argument('-s', '-stack', dest='stack', action='store_true', help='stack message and ai response') #optional true or false argument
+parser.add_argument('-key', dest='api_key', metavar='API KEY')
+parser.add_argument('message', nargs='*', help='type message to AI after arguments') #positional argument : 'message'. nargs='*' ensures we get same usable output as sys.argv[1:]
 
 #set parsed arguments as variable.
 args = parser.parse_args()
+
+if args.api_key:
+    config['api_key'] = args.api_key
+    save_config()
+
+# define constants
+api_key = config['api_key']
+message_url = 'https://api.personal.ai/v1/message'
+memory_url = 'https://api.personal.ai/v1/memory'
 
 #MAIN SCRIPT================================================#
 def concat(args, sep=" "): 
@@ -91,15 +98,16 @@ def main(): #this is where we will bring it together
         
         #send message to ai. store and print response.
         response = str(send_message(message))
-        print("\n " + str(response) + "\n")
+        print("\n " + "> " + str(response) + "\n")
 
         #stack message sent to ai and ai response if stack is set to true (see arguments)
         if args.stack:
             stack_memory(
                 "recieved message: " + message +
                 "\n AI response:" + response)
+            print("stacked.\n")
         else:
-            print("message not stacked.\n")
+            print("not stacked.\n")
 
 #if there is an api key, run main (script bugs out end errors without it
 # due to lack of key in line 36)
