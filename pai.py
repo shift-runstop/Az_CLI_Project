@@ -12,7 +12,11 @@ import requests
 
 #load config.json
 config = {
-'api_key' : '',
+'api_key' : None,
+'UserName': None,
+'DomainName_sendMessage':None,
+'DomainName_stackMessage':None,
+'DomainName_stackResponse':None,
 }
 try:
     f = open("config.json", "r")
@@ -20,12 +24,12 @@ try:
     f.close()
 except:
     f = open("config.json", "w")
-    f.write(json.dumps(config))
+    f.write(json.dumps(config, indent=4))
     f.close()
 
 def save_config():
     f = open("config.json", "w")
-    f.write(json.dumps(config))
+    f.write(json.dumps(config, indent=4))
     f.close()    
 
 #setup argpass
@@ -58,10 +62,12 @@ def concat(args, sep=" "):
     if len(args) >= 1: 
         return sep.join(args)
     
-def send_message(message):
+def send_message(message): #send message to AI function
     headers = {
         'Content-Type': 'application/json',
-        'x-api-key': api_key
+        'x-api-key': api_key,
+        'UserName':config['UserName'],
+        'DomainName':config['DomainName_sendMessage']
     }
     payload = json.dumps({ #json.dumps to ensure json format is sent as *requried*
         "Text": message, #message (string data) to send AI.
@@ -72,14 +78,15 @@ def send_message(message):
     response_data = response.json()
 
     try:
-        return response_data['ai_message']
+        return response_data['ai_name'], response_data['ai_message']
     except: 
         "unable to fetch message response"
 
-def stack_memory(text):
+def stack_memory(text, domain=config['DomainName_sendMessage']): #stack memory to AI
     headers = {
         'Content-Type': 'application/json',
-        'x-api-key': api_key
+        'x-api-key': api_key,
+        'DomainName':domain
     }
 
     payload = json.dumps({ #json.dumps to ensure json format is sent as *requried*
@@ -97,17 +104,23 @@ def main(): #this is where we will bring it together
     if message: #if there is a message to send to the ai
         
         #send message to ai. store and print response.
-        response = str(send_message(message))
-        print("\n " + "> " + str(response) + "\n")
+        ai_name, response = send_message(message)
+
+        print("\n" + str(ai_name) + " > " + str(response) + "\n")
 
         #stack message sent to ai and ai response if stack is set to true (see arguments)
         if args.stack:
-            stack_memory(
-                "recieved message: " + message +
-                "\n AI response:" + response)
-            print("stacked.\n")
+            if config['DomainName_stackMessage'] != config['DomainName_stackResponse']:
+                stack_memory("recieved message: " + str(message), config['DomainName_stackMessage'])
+                stack_memory("AI response: " + str(message), config['DomainName_stackResponse'])
+                print("stacked message to: " + config['DomainName_stackMessage'] + "\nstacked response to: " + config['DomainName_stackResponse'])
+            else:   
+                stack_memory(
+                    "recieved message: " + str(message) +
+                    "\n AI response:" + str(response))                    
+                print("stacked.\n")
         else:
-            print("not stacked.\n")
+            print("[not stacked]\n")
 
 #if there is an api key, run main (script bugs out end errors without it
 # due to lack of key in line 36)
