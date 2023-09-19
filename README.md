@@ -13,12 +13,15 @@ This is a python script to allow you to communicate with your [Personal AI](http
 ```
 git clone https://github.com/sRuxen/Az_CLI_Project-Python/pai.py
 ```
-* Create a .env file in the same folder with the following information:
-```
-API_KEY=
-```
-* Put your PAI api key in the appropriate field
+* add API key to config.json or use the following
+``python3 pai.py -key [YOUR API KEY HERE]``
 
 # Usage
-python3 pai.py Your Message Here.
+send message to AI
+``python3 pai.py [Your Message Here.]``
+get help (list arguments)
+``python3 pai.py -h``
+
+
+
 
