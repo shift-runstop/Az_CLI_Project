@@ -86,5 +86,3 @@ if len(api_key) > 0:
 else:
     #if there isnt a key, inform user key is missing.
     print("api key missing") 
-    #-- refine later to inform of .env file
-    #-- possibly auto create .env file ?
