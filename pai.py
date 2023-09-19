@@ -18,21 +18,26 @@ config = {
 'DomainName_stackMessage':None,
 'DomainName_stackResponse':None,
 }
-try:
-    f = open("config.json", "r")
-    config = json.loads(f.read())
-    f.close()
-except:
-    f = open("config.json", "w")
-    f.write(json.dumps(config, indent=4))
-    f.close()
+def load_config(name="config.json"):
+    try:
+        f = open("config.json", "r")
+        cfg = json.loads(f.read())
+        f.close()
+        return cfg
+    except:
+        f = open("config.json", "w")
+        f.write(json.dumps(config, indent=4))
+        f.close()
+        return config
+
+config = load_config()
 
 def save_config():
     f = open("config.json", "w")
     f.write(json.dumps(config, indent=4))
     f.close()    
 
-#setup argpass
+#==========ARGUMENTS
 parser = argparse.ArgumentParser(
             prog='PAI Command Line Interface',
             description='A tool for interaction with PAI AI from the command line',
@@ -41,17 +46,23 @@ parser = argparse.ArgumentParser(
 #define arguments
 
 parser.add_argument('-s', '-stack', dest='stack', action='store_true', help='stack message and ai response') #optional true or false argument
-parser.add_argument('-key', dest='api_key', metavar='API KEY')
+parser.add_argument('-c', '--config', metavar='CONFIG FILE', help='for loading a config that is not the default. must be .json file.') #value argument
+parser.add_argument('-key', dest='api_key', metavar='API KEY') #value argument
 parser.add_argument('message', nargs='*', help='type message to AI after arguments') #positional argument : 'message'. nargs='*' ensures we get same usable output as sys.argv[1:]
+
 
 #set parsed arguments as variable.
 args = parser.parse_args()
 
+#value argument handeling
 if args.api_key:
     config['api_key'] = args.api_key
     save_config()
+if args.config:
+    load_config(args.config)
 
-# define constants
+#=========CONSTANT VARIABLE DEFINITIONS
+
 api_key = config['api_key']
 message_url = 'https://api.personal.ai/v1/message'
 memory_url = 'https://api.personal.ai/v1/memory'
@@ -91,7 +102,7 @@ def stack_memory(text, domain=config['DomainName_sendMessage']): #stack memory t
     payload = json.dumps({ #json.dumps to ensure json format is sent as *requried*
         "Text": text, #text data to stack to AI's memory.
         "SourceName": "CLI", #source name *required* by api.
-        'DomainName':domain
+        "DomainName":domain
     })
 
     #send memory data to server
