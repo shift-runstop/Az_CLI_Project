@@ -14,7 +14,7 @@ This is a python script to allow you to communicate with your [Personal AI](http
 git clone https://github.com/sRuxen/Az_CLI_Project-Python/pai.py
 ```
 * add API key to config.json or use the following
-``python3 pai.py -key [YOUR API KEY HERE]``
+```python3 pai.py -key [YOUR API KEY HERE]```
 
 # Usage
 send message to AI
