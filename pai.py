@@ -11,7 +11,7 @@ import argparse
 import requests 
 
 #load config.json
-config = {
+default_config = {
 'api_key' : None,
 'UserName': None,
 'DomainName_sendMessage':None,
@@ -20,15 +20,15 @@ config = {
 }
 def load_config(name="config.json"):
     try:
-        f = open("config.json", "r")
+        f = open(name, "r")
         cfg = json.loads(f.read())
         f.close()
         return cfg
     except:
-        f = open("config.json", "w")
-        f.write(json.dumps(config, indent=4))
+        f = open(name, "w")
+        f.write(json.dumps(default_config, indent=4))
         f.close()
-        return config
+        return default_config
 
 config = load_config()
 
@@ -59,7 +59,7 @@ if args.api_key:
     config['api_key'] = args.api_key
     save_config()
 if args.config:
-    load_config(args.config)
+    config = load_config(args.config)
 
 #=========CONSTANT VARIABLE DEFINITIONS
 
