@@ -66,11 +66,11 @@ def send_message(message): #send message to AI function
     headers = {
         'Content-Type': 'application/json',
         'x-api-key': api_key,
-        'UserName':config['UserName'],
-        'DomainName':config['DomainName_sendMessage']
     }
     payload = json.dumps({ #json.dumps to ensure json format is sent as *requried*
         "Text": message, #message (string data) to send AI.
+        'DomainName':config['DomainName_sendMessage'],
+        'UserName':config['UserName'],
     })
 
     #send message to AI.
@@ -86,12 +86,12 @@ def stack_memory(text, domain=config['DomainName_sendMessage']): #stack memory t
     headers = {
         'Content-Type': 'application/json',
         'x-api-key': api_key,
-        'DomainName':domain
     }
 
     payload = json.dumps({ #json.dumps to ensure json format is sent as *requried*
         "Text": text, #text data to stack to AI's memory.
         "SourceName": "CLI", #source name *required* by api.
+        'DomainName':domain
     })
 
     #send memory data to server
