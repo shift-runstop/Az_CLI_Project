@@ -31,6 +31,8 @@ get help (list arguments)
 python3 pai.py -h
 ``
 
-
+# Configuration
+The script saves its configuration to config.json by default.
+Here you can define domain names for usage of sub profiles, the api key, and a local username so the AI knows who sent it a message
 
 
