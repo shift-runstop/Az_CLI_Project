@@ -20,11 +20,13 @@ python3 pai.py -key [YOUR API KEY HERE]
 
 # Usage
 send message to AI
+
 ``
 python3 pai.py [Your Message Here.]
 ``
 
 get help (list arguments)
+
 ``
 python3 pai.py -h
 ``
