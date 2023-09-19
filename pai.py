@@ -24,9 +24,6 @@ api_key = os.getenv('API_KEY')
 message_url = 'https://api.personal.ai/v1/message'
 memory_url = 'https://api.personal.ai/v1/memory'
 
-#temp. will be moved to .env
-Domain_URL = "seancruz20212622-ruxen" or None
-
 def concat(args, sep=" "): 
     #return concatinaton of arguments if there is 1 or more (error prevention)
     if len(args) >= 1: 
@@ -39,7 +36,6 @@ def send_message(message):
     }
     payload = json.dumps({ #json.dumps to ensure json format is sent as *requried*
         "Text": message, #message (string data) to send AI.
-        #"DomainName": Domain_URL if Domain_URL else None, #Domain name for sub-profile support
     })
 
     #send message to AI.
@@ -60,7 +56,6 @@ def stack_memory(text):
     payload = json.dumps({ #json.dumps to ensure json format is sent as *requried*
         "Text": text, #text data to stack to AI's memory.
         "SourceName": "CLI", #source name *required* by api.
-        #"DomainName": Domain_URL if Domain_URL else None, #Domain name for sub-profile support
     })
 
     #send memory data to server
