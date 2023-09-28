@@ -4,19 +4,37 @@ title: "README"
 source: ""
 aliases: ["README"]
 ---
+Python branch of the Az CLI Project: https://github.com/shift-runstop/Az_CLI_Project
+
 This is a python script to allow you to communicate with your [Personal AI](https://personal.ai) via CLI.
 
 # Installation
 * Clone the repository
 ```
-git clone https://github.com/shift-runstop/Az_CLI_Project/blob/main/test.py
+git clone https://github.com/sRuxen/Az_CLI_Project-Python/pai.py
 ```
-* Create a .env file in the same folder with the following information:
+* add API key to config.json or use the following
 ```
-API_KEY=
-BASE_URL=https://api.personal.ai/v1/message
+python3 pai.py -key [YOUR API KEY HERE]
 ```
-* Put your PAI api key in the appropriate field
 
 # Usage
-python3 scriptname.py Your Message Here.
+send message to AI
+
+```
+python3 pai.py [Your Message Here.]
+```
+
+* Note, you need to use the ``-s`` argument to stack messages, they do not stack by default.
+
+get a full list of availble arguments
+
+```
+python3 pai.py -h
+```
+
+# Configuration
+The script saves its configuration to config.json by default.
+Here you can define domain names for usage of sub profiles, the api key, and a local username so the AI knows who sent it a message
+
+
